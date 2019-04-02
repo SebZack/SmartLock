@@ -22,17 +22,17 @@ void loop(){
 
   if(Serial.available()){
     input = Serial.read();
+
     
+    if(serialData == '1'){
+      Serial.println("1");
+      lock();
+    }
+   if(serialData == '0'){
+      Serial.println("0");
+      unlock();
+    }
   }
-
-  
-
-
-  
-  unlock();
-  delay(100);
-  lock();
-  delay(100);
 }
 
 void unlock() {
