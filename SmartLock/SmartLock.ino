@@ -37,7 +37,6 @@ void loop(){
 
 void unlock() {
     Servo1.write(180); //Set servo to 180 degrees
-    
     delay(100);
    
 }
