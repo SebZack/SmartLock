@@ -98,9 +98,9 @@ Servo Servo1;
 #define NOTE_CS8 4435
 #define NOTE_D8  4699
 #define NOTE_DS8 4978
-
 #define melodyPin 9
 ///notes
+
 
 int melody[] = {
   NOTE_E7, NOTE_E7, 0, NOTE_E7,
@@ -201,7 +201,6 @@ int underworld_tempo[] = {
   3, 3, 3
 };
 
-
 void setup() { 
 
   
@@ -277,7 +276,7 @@ void sing(int s) {
 
       // stop the tone playing:
       buzz(melodyPin, 0, noteDuration);
-
+      Serial.println("Mario is dead");
     }
 
   } else {
