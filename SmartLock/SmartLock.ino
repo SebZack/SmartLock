@@ -213,6 +213,7 @@ void setup() {
    Servo1.write(0); //Set servo to 0 degrees
    delay(500);
    Serial.println("Welcome");
+   mario();
 }
 void loop(){ 
 
