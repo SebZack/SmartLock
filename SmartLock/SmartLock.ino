@@ -1,7 +1,7 @@
 // Include the Servo library 
 #include <Servo.h> 
 // Declare the Servo pin 
-int servoPin = 3;
+int servoPin = 11;
 const int pin = 10; //1234
 
 char input;
@@ -213,7 +213,6 @@ void setup() {
    Servo1.write(0); //Set servo to 0 degrees
    delay(500);
    Serial.println("Welcome");
-   mario();
 }
 void loop(){ 
 
@@ -245,7 +244,7 @@ void unlock() {
 void lock() {
     Servo1.write(0); //Set servo to 0 degrees
     Serial.println("Locked");
-    delay(100);
+    delay(1);
     }
 
 void mario() {
