@@ -1,10 +1,18 @@
+#include <Servo.h>
 #include <Keypad.h>
 #include <Password.h>
- 
+
+int servoPin = 11;
+
+int state = 0;
+
+
 String newPasswordString; //hold the new password
 char newPassword[6]; //charater string of newPasswordString
  
 Password password = Password( "1337" );
+Servo Servo1;
+
  
 byte maxPasswordLength = 6; 
 byte currentPasswordLength = 0;
@@ -28,6 +36,11 @@ Keypad keypad = Keypad( makeKeymap(keys), rowPins, colPins, ROWS, COLS );
  
 void setup(){
    Serial.begin(9600);
+   Servo1.attach(servoPin);
+   pinMode(9, OUTPUT);//buzzer
+   Servo1.write(0); //Set servo to 0 degrees
+   delay(500);
+   Serial.println("Lock is ready!");
 }
  
 void loop(){
@@ -39,8 +52,8 @@ void loop(){
       case 'B': break; 
       case 'C': break; 
       case 'D': break; 
-      case '#': checkPassword(); break;
-      case '*': resetPassword(); break;
+      case 'E': checkPassword(); break;
+      case 'S': resetPassword(); break;
       default: processNumberKey(key);
       }
    }
@@ -57,7 +70,19 @@ void processNumberKey(char key) {
 
 void checkPassword() {
    if (password.evaluate()){
-      Serial.println(" Päfa!");
+    if (state == 0){
+      Servo1.write(0); //Set servo to 180 degrees
+      Serial.println("Locked");
+      state = 1;
+      delay(100);
+    }
+    else if (state == 1) {
+      Servo1.write(180); //Set servo to 180 degrees
+      state = 0;
+      Serial.println("Unlocked");
+      delay(100);
+    }
+      
    } else {
       Serial.println(" Fel pin!");
    } 
