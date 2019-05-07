@@ -8,22 +8,20 @@ Password password = Password( "1337" );
  
 byte maxPasswordLength = 6; 
 byte currentPasswordLength = 0;
+
 const byte ROWS = 4; // Four rows
-const byte COLS = 4; // Four columns
- 
-//Define the keymap
+const byte COLS = 3; // Three columns
+// Define the Keymap
 char keys[ROWS][COLS] = {
-{'1','2','3','A'},
-{'4','5','6','B'},
-{'7','8','9','C'},
-{'*','0','#','D'}
+  {'1','2','3'},
+  {'4','5','6'},
+  {'7','8','9'},
+  {'S','0','E'}
 };
- 
-//// Connect keypad ROW0, ROW1, ROW2 and ROW3 to these Arduino pins.
-byte rowPins[ROWS] = {6,7,8,9}; //connect to row pinouts
- 
-// Connect keypad COL0, COL1, COL2 and COL3 to these Arduino pins.
-byte colPins[COLS] = {2,3,4,5}; //connect to column pinouts
+// Connect keypad ROW0, ROW1, ROW2 and ROW3 to these Arduino pins.
+byte rowPins[ROWS] = { 3, 8, 7, 5 };
+// Connect keypad COL0, COL1 and COL2 to these Arduino pins.
+byte colPins[COLS] = { 4, 2, 6 }; 
  
 // Create the Keypad
 Keypad keypad = Keypad( makeKeymap(keys), rowPins, colPins, ROWS, COLS );
@@ -59,9 +57,9 @@ void processNumberKey(char key) {
 
 void checkPassword() {
    if (password.evaluate()){
-      Serial.println(" OK.");
+      Serial.println(" Päfa!");
    } else {
-      Serial.println(" Wrong passwowrd!");
+      Serial.println(" Fel pin!");
    } 
    resetPassword();
 }
@@ -69,10 +67,4 @@ void checkPassword() {
 void resetPassword() {
    password.reset(); 
    currentPasswordLength = 0; 
-}
-
-
- 
-void resetPassword() {
-   mario();
 }
