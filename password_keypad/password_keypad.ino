@@ -71,6 +71,7 @@ void processNumberKey(char key) {
 void checkPassword() {
    if (password.evaluate()){
     if (state == 0){
+      mario();
       Servo1.write(0); //Set servo to 180 degrees
       Serial.println("Locked");
       state = 1;
@@ -93,3 +94,11 @@ void resetPassword() {
    password.reset(); 
    currentPasswordLength = 0; 
 }
+
+void mario() {
+  sing(1);
+  sing(1);
+  sing(2);
+}
+
+int song = 0;
