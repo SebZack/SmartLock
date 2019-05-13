@@ -3,6 +3,7 @@
 #include <Password.h>
 
 int servoPin = 11;
+int buzzer = 10;
 
 int state = 0;
 
@@ -37,7 +38,7 @@ Keypad keypad = Keypad( makeKeymap(keys), rowPins, colPins, ROWS, COLS );
 void setup(){
    Serial.begin(9600);
    Servo1.attach(servoPin);
-   pinMode(9, OUTPUT);//buzzer
+   pinMode(10, OUTPUT);//buzzer
    Servo1.write(0); //Set servo to 0 degrees
    delay(500);
    Serial.println("Lock is ready!");
@@ -71,16 +72,17 @@ void processNumberKey(char key) {
 void checkPassword() {
    if (password.evaluate()){
     if (state == 0){
-      mario();
-      Servo1.write(0); //Set servo to 180 degrees
-      Serial.println("Locked");
+      Servo1.write(0); //Set servo to 0 degrees
+      Serial.println("Unlocked");
       state = 1;
+      lockAndUnlockBeep();
       delay(100);
     }
     else if (state == 1) {
-      Servo1.write(180); //Set servo to 180 degrees
+      Servo1.write(90); //Set servo to 180 degrees
       state = 0;
-      Serial.println("Unlocked");
+      Serial.println("Locked");
+      lockAndUnlockBeep();
       delay(100);
     }
       
@@ -92,13 +94,22 @@ void checkPassword() {
 
 void resetPassword() {
    password.reset(); 
-   currentPasswordLength = 0; 
+   currentPasswordLength = 0;
 }
 
 void mario() {
   sing(1);
-  sing(1);
-  sing(2);
 }
 
 int song = 0;
+
+void lockAndUnlockBeep() {
+  digitalWrite(buzzer, HIGH);
+  delay(50);
+  digitalWrite(buzzer, LOW);
+  delay(50);
+  digitalWrite(buzzer, HIGH);
+  delay(50);
+  digitalWrite(buzzer, LOW);
+  delay(50);
+}
