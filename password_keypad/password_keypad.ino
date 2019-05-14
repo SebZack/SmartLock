@@ -4,8 +4,9 @@
 
 int servoPin = 11;
 int buzzer = 10;
-
-int state = 0;
+int greenLed = 13;
+int redLed = 12;
+int state = 1;
 
 
 String newPasswordString; //hold the new password
@@ -39,6 +40,8 @@ void setup(){
    Serial.begin(9600);
    Servo1.attach(servoPin);
    pinMode(10, OUTPUT);//buzzer
+   pinMode(greenLed, OUTPUT);
+   pinMode(redLed, OUTPUT);
    Servo1.write(0); //Set servo to 0 degrees
    delay(500);
    Serial.println("Lock is ready!");
@@ -58,12 +61,16 @@ void loop(){
       default: processNumberKey(key);
       }
    }
+   
 }
  
 void processNumberKey(char key) {
    Serial.print(key);
    currentPasswordLength++;
    password.append(key);
+   digitalWrite(buzzer, HIGH);
+   delay(50);
+   digitalWrite(buzzer, LOW);
    if (currentPasswordLength == maxPasswordLength) {
       checkPassword();
    } 
@@ -76,18 +83,20 @@ void checkPassword() {
       Serial.println("Unlocked");
       state = 1;
       lockAndUnlockBeep();
-      delay(100);
+      blinkGreenLed();
     }
     else if (state == 1) {
       Servo1.write(90); //Set servo to 180 degrees
       state = 0;
       Serial.println("Locked");
       lockAndUnlockBeep();
-      delay(100);
+      blinkRedLed();
+      
     }
       
    } else {
       Serial.println(" Fel pin!");
+      wrongBlink();
    } 
    resetPassword();
 }
@@ -112,4 +121,55 @@ void lockAndUnlockBeep() {
   delay(50);
   digitalWrite(buzzer, LOW);
   delay(50);
+}
+
+void blinkGreenLed() {
+  
+      digitalWrite(redLed, LOW);
+      digitalWrite(greenLed, HIGH);
+      delay(50);
+      digitalWrite(greenLed, LOW);
+      delay(50);
+      digitalWrite(greenLed, HIGH);
+      delay(50);
+      digitalWrite(greenLed, LOW);
+      delay(100);
+      digitalWrite(greenLed, HIGH);
+}
+
+void blinkRedLed() {
+
+      digitalWrite(greenLed, LOW);
+      digitalWrite(redLed, HIGH);
+      delay(50);
+      digitalWrite(redLed, LOW);
+      delay(50);
+      digitalWrite(redLed, HIGH);
+      delay(50);
+      digitalWrite(redLed, LOW);
+      delay(100);
+      digitalWrite(redLed, HIGH);
+}
+
+void wrongBlink(){
+
+digitalWrite(redLed, LOW);
+digitalWrite(greenLed, LOW);
+
+
+digitalWrite(redLed, HIGH);
+digitalWrite(greenLed, HIGH);
+digitalWrite(buzzer, HIGH);
+delay(50);
+digitalWrite(redLed, LOW);
+digitalWrite(greenLed, LOW);
+digitalWrite(buzzer, LOW);
+delay(20);
+digitalWrite(redLed, HIGH);
+digitalWrite(greenLed, HIGH);
+digitalWrite(buzzer, HIGH);
+delay(50);
+digitalWrite(redLed, LOW);
+digitalWrite(greenLed, LOW);
+digitalWrite(buzzer, LOW);
 }
